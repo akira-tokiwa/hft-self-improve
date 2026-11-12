@@ -6,6 +6,8 @@ __pycache__/
 .mypy_cache/
 .env
 *.log
+*.bundle
+*.tar.gz
 
 # Local data lake (keep directory structure via .gitkeep)
 data/raw/**
