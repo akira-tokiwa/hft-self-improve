@@ -1,0 +1,5 @@
+strategy: dummy_mean_reversion
+params:
+  window: 50
+  entry_z: 1.25
+  exit_z: 0.25

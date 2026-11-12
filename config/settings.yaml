@@ -1,0 +1,69 @@
+# HFT Self-Improvement Loop — local settings template
+# Copy secrets to environment variables; do not commit API keys.
+
+project:
+  name: hft-self-improve
+  timezone: Asia/Tokyo
+  python_min: "3.11"
+
+paths:
+  data_raw: data/raw
+  data_parquet: data/parquet
+  data_live: data/live
+  experiments: experiments
+  knowledge: knowledge
+  bot_prompts: bot_prompts
+
+data:
+  # Providers: tardis | databento | synthetic
+  default_provider: tardis
+  default_symbol: BTC-PERPETUAL
+  default_venue: deribit
+  default_dataset: trades
+  default_days: 1
+  default_output_format: parquet  # parquet | raw
+  parquet_engine: polars  # polars | pyarrow
+  compression: zstd
+  # Offline scaffolding without API keys
+  force_dry_run: false
+  dry_run_rows: 500
+  dry_run_jitter_ms: 1.5
+  # Databento-specific (venue may be dataset id, e.g. GLBX.MDP3)
+  databento_dataset: GLBX.MDP3
+  databento_stype_in: raw_symbol
+  # Tardis base URL override (optional)
+  tardis_base_url: https://api.tardis.dev/v1
+
+backtest:
+  default_strategy: dummy_mean_reversion
+  initial_capital: 100000.0
+  position_notional: 10000.0
+  fee_bps: 1.0
+  slippage_bps: 0.5
+  latency_ms: 5.0
+  apply_latency_correction: true
+  # Optional device hint for strategies (cpu | cuda)
+  device: cpu
+
+logging:
+  level: INFO
+  # json | console
+  format: json
+  file: experiments/run.log
+
+grok:
+  enabled: false
+  model: grok-2-latest
+  base_url: https://api.x.ai/v1
+  timeout_sec: 60
+  allowed_scripts:
+    - scripts/download_data.py
+    - scripts/backtest.py
+    - scripts/latency_correction.py
+    - scripts/inspect_data.py
+    - scripts/ops_check.py
+
+experiments:
+  id_prefix: exp
+  write_metrics_json: true
+  write_summary_md: true

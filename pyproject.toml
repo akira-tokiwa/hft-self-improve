@@ -1,0 +1,31 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "hft-self-improve"
+version = "0.1.0"
+description = "Local HFT self-improvement loop (Grok-commanded)"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+  "pyyaml>=6.0.2",
+  "structlog>=24.4.0",
+  "python-dotenv>=1.0.1",
+  "polars>=1.17.0",
+  "pyarrow>=18.0.0",
+  "numpy>=2.1.0",
+  "pandas>=2.2.0",
+  "httpx>=0.28.0",
+  "rich>=13.9.0",
+]
+
+[project.optional-dependencies]
+dev = ["ruff>=0.8.0", "pytest>=8.3.0"]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"

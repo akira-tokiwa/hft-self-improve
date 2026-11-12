@@ -1,0 +1,21 @@
+# Python 3.11+
+# Core
+pyyaml>=6.0.2
+structlog>=24.4.0
+python-dotenv>=1.0.1
+
+# Parquet / tabular
+polars>=1.17.0
+pyarrow>=18.0.0
+
+# Numerics (backtest / latency)
+numpy>=2.1.0
+pandas>=2.2.0
+
+# Optional: HTTP client for future Grok API / data provider calls
+httpx>=0.28.0
+rich>=13.9.0
+
+# Dev / quality (optional)
+ruff>=0.8.0
+pytest>=8.3.0
