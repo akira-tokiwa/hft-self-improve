@@ -43,6 +43,8 @@ cp .env.example .env
 | 戦略パラメータ | `config/strategies/*.yaml` |
 | 秘密情報 | `.env` のみ（YAML に書かない） |
 
+デフォルト provider は無料の `binance_public`（`BTCUSDT` / `um` / `aggTrades`）。Bybit は `--provider bybit_public --venue trading`。Tardis/Databento はキーが必要。
+
 疎通:
 
 ```bash
@@ -68,14 +70,25 @@ python scripts/ops_check.py
 
 ### `scripts/download_data.py`
 
-Tardis / Databento 取得（キー必須）。キー無しは `--dry-run` で合成 Parquet。
+無料の **Binance / Bybit 公式アーカイブ**（キー不要）、または Tardis / Databento（キー必須）。  
+キー無しのオフライン検証は `--dry-run` で合成 Parquet。
 
 ```bash
 # オフライン検証
 python scripts/download_data.py --dry-run --days 1
 python scripts/download_data.py --dry-run --as-live --days 1   # → data/live
 
-# 実データ
+# 無料 — Binance Vision ZIP（data.binance.vision）
+python scripts/download_data.py --provider binance_public \
+  --symbol BTCUSDT --venue um --dataset aggTrades \
+  --start 2024-06-01 --end 2024-06-02
+
+# 無料 — Bybit public CSV.gz（public.bybit.com）
+python scripts/download_data.py --provider bybit_public \
+  --symbol BTCUSDT --venue trading --dataset trades \
+  --start 2024-06-01 --end 2024-06-02
+
+# 有料 — Tardis
 python scripts/download_data.py --provider tardis \
   --symbol BTC-PERPETUAL --venue deribit --dataset trades \
   --start 2024-01-01 --end 2024-01-02
