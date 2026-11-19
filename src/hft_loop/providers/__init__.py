@@ -1,4 +1,4 @@
-"""Market-data providers (Tardis, Databento, synthetic dry-run)."""
+"""Market-data providers (Tardis, Databento, Binance/Bybit public, synthetic)."""
 
 from __future__ import annotations
 

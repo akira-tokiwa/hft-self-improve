@@ -1,8 +1,16 @@
 #!/usr/bin/env python3
-"""Download market data from Tardis / Databento (or --dry-run synthetic).
+"""Download market data from public archives / Tardis / Databento (or --dry-run).
 
 Examples:
   python scripts/download_data.py --dry-run --days 1
+  # Free — Binance Vision ZIP (no API key)
+  python scripts/download_data.py --provider binance_public \\
+      --symbol BTCUSDT --venue um --dataset aggTrades \\
+      --start 2024-06-01 --end 2024-06-02
+  # Free — Bybit public CSV.gz (no API key)
+  python scripts/download_data.py --provider bybit_public \\
+      --symbol BTCUSDT --venue trading --dataset trades \\
+      --start 2024-06-01 --end 2024-06-02
   python scripts/download_data.py --provider tardis --symbol BTC-PERPETUAL \\
       --start 2024-01-01 --end 2024-01-02
   python scripts/download_data.py --provider databento --venue GLBX.MDP3 \\
@@ -26,12 +34,26 @@ from hft_loop.providers import DownloadRequest, get_provider
 
 
 def _parse_args() -> argparse.Namespace:
-    p = argparse.ArgumentParser(description="Download market data (Tardis / Databento)")
+    p = argparse.ArgumentParser(
+        description="Download market data (Binance/Bybit public, Tardis, Databento)"
+    )
     p.add_argument("--config", default=None, help="Path to settings.yaml")
-    p.add_argument("--provider", default=None, help="tardis | databento | synthetic")
+    p.add_argument(
+        "--provider",
+        default=None,
+        help="binance_public | bybit_public | tardis | databento | synthetic",
+    )
     p.add_argument("--symbol", default=None)
-    p.add_argument("--venue", default=None, help="Exchange / Databento dataset id")
-    p.add_argument("--dataset", default=None, help="trades | book_snapshot_5 | mbp-1 | ...")
+    p.add_argument(
+        "--venue",
+        default=None,
+        help="binance: spot|um|cm ; bybit: trading|spot ; or Databento dataset id",
+    )
+    p.add_argument(
+        "--dataset",
+        default=None,
+        help="binance: trades|aggTrades ; bybit: trades ; or provider-specific",
+    )
     p.add_argument("--start", default=None, help="UTC start date/datetime ISO")
     p.add_argument("--end", default=None, help="UTC end date/datetime ISO")
     p.add_argument("--days", type=int, default=None, help="If set, end=now and start=now-days")

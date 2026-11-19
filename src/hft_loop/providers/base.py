@@ -57,6 +57,16 @@ def get_provider(name: str, *, dry_run: bool = False) -> Provider:
         from hft_loop.providers.databento_provider import DatabentoProvider
 
         return DatabentoProvider()
+    if key in {"binance_public", "binance"}:
+        from hft_loop.providers.binance_public import BinancePublicProvider
+
+        return BinancePublicProvider()
+    if key in {"bybit_public", "bybit"}:
+        from hft_loop.providers.bybit_public import BybitPublicProvider
+
+        return BybitPublicProvider()
     raise ValueError(
-        f"Unknown provider '{name}'. Supported: tardis, databento, synthetic (dry-run)."
+        "Unknown provider "
+        f"'{name}'. Supported: tardis, databento, binance_public, bybit_public, "
+        "synthetic (dry-run)."
     )

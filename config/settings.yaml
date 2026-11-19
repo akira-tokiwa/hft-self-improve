@@ -15,11 +15,12 @@ paths:
   bot_prompts: bot_prompts
 
 data:
-  # Providers: tardis | databento | synthetic
-  default_provider: tardis
-  default_symbol: BTC-PERPETUAL
-  default_venue: deribit
-  default_dataset: trades
+  # Providers: binance_public | bybit_public | tardis | databento | synthetic
+  # Free archives (no API key): binance_public / bybit_public
+  default_provider: binance_public
+  default_symbol: BTCUSDT
+  default_venue: um          # binance: spot|um|cm ; bybit: trading|spot
+  default_dataset: aggTrades # binance: trades|aggTrades ; bybit: trades
   default_days: 1
   default_output_format: parquet  # parquet | raw
   parquet_engine: polars  # polars | pyarrow
